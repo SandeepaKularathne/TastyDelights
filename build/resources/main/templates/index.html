@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:fragment="headerFragment">
+  <meta charset="UTF-8">
+  <meta name="Printport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="icon" href="/bakery-shop-logo-design-Graphics-19631168-1-removebg-prePrint.png">
+  <!-- Bootstrap css -->
+  <link rel="stylesheet" href="\bootstrap-5.2.3\css\bootstrap.min.css">
+
+  <!-- Bootstrap js-->
+  <script src="/bootstrap-5.2.3/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Fontawesome css -->
+  <link rel="stylesheet" href="/fontawesome-free-6.4.2/css/all.css">
+
+  <!-- common css -->
+  <link rel="stylesheet" href="/style/index.css">
+
+
+
+
+</head>
+
+<title>Dashboard</title>
+
+<body>
+
+  <!-- top nav bar and side bar -->
+  <nav class="navbar fixed-top" th:fragment="topnavbarFragment">
+
+    <div class="container-fluid">
+
+      <a href="/index" class="navbar-brand"><img src="/images/nav-brand.png" style="width: 50px; height:50px"
+          alt=""></a>
+
+
+      <a style="margin-left:-100">
+        <img src="images/user/default.png" id="imgUserPhoto" alt=""
+          style="width: 50px; height:50px; border-radius: 50%;">
+
+        <span style="color: white; font-family: Georgia, 'Times New Roman', Times, serif; font-size:20px;"
+          th:text="${loggedusername}">
+        </span>
+        <span style="color: white; font-family: Georgia, 'Times New Roman', Times, serif; font-size:20px;"
+          th:text="${loggeduserrole}">
+        </span>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+        aria-controls="offcanvasNavbar">
+        <header><a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a>
+      </button>
+
+      <div class="offcanvas offcanvas-side offcanvas-end" tabindex="-1" id="offcanvasNavbar"
+        aria-labelledby="offcanvasNavbarLabel">
+        <header>
+          <a href="/index" class="brand-logo"><img src="/images/logo2.png" alt="Cake Shop Logo"></a>
+        </header>
+
+        <div class="offcanvas-body">
+          <ul class="navbar-nav">
+
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/index">
+                <i class="fa-solid fa-store"></i> Home
+              </a>
+            </li>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <i class="fa-solid fa-user-tie"></i> Administration
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/employee">Employee</a></li>
+                <li><a class="dropdown-item" href="/user">User</a></li>
+                <li><a class="dropdown-item" href="/privilege">Privilege</a></li>
+              </ul>
+            </li>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle fw-bold" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false"><i class="fa-solid fa-boxes-packing" style="color: black;"></i>
+                Purchase Management
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/ingredient">Ingredient</a></li>
+                <li><a class="dropdown-item" href="/supplier">Supplier</a></li>
+                <li><a class="dropdown-item" href="/purchaseorder">Purchase Order</a></li>
+                <li><a class="dropdown-item" href="/irn">IRN</a></li>
+                <li><a class="dropdown-item" href="/supplierpayment">Supplier Payment</a></li>
+              </ul>
+            </li>
+
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle fw-bold" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false"><i class="fa-solid fa-money-check-dollar" style="color: black;"></i>
+                Sales Management
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/customer">Customer</a></li>
+                <li><a class="dropdown-item" href="/product">Product</a></li>
+                <li><a class="dropdown-item" href="/customerorder">Customer Order</a></li>
+                <li><a class="dropdown-item" href="/customerpayment">Customer Payment</a></li>
+              </ul>
+            </li>
+
+            <li>
+              <a class="nav-link fw-bold " href="/production" role="button" aria-expanded="false"><i
+                  class="fa-brands fa-product-hunt" style="color: black;"></i> Production Management
+              </a>
+            </li>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle fw-bold" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false"><i class="fa-solid fa-boxes-packing" style="color: black;"></i>
+                Inventory Management
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/stockdetail">Stock Details</a></li>
+
+              </ul>
+            </li>
+
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle fw-bold" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false"><i class="fa-solid fa-file-lines" style="color: #000000;"></i>
+                Generated Report
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/reportemployee">Employee Report</a></li>
+                <li><a class="dropdown-item" href="/reportpurchase">Purchase Order Report</a></li>
+                <li><a class="dropdown-item" href="/samplechart">Count By Product Type</a></li>
+                <li><a class="dropdown-item" href="/customerpayment">Customer Payment</a></li>
+              </ul>
+            </li>
+
+
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </nav>
+
+
+  <div id="carouselExampleIndicators" class="carousel slide">
+
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+        aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+        aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+        aria-label="Slide 3"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+        aria-label="Slide 4"></button>
+
+    </div>
+
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="\images\banner\b1.jpg" class="d-block w-100" alt="img 1">
+      </div>
+      <div class="carousel-item">
+        <img src="\images\banner\b2.jpg" class="d-block w-100" alt="img 2">
+      </div>
+      <div class="carousel-item">
+        <img src="\images\banner\b3.jpg" class="d-block w-100" alt="img 3">
+      </div>
+      <div class="carousel-item">
+        <img src="\images\banner\b4.jpg" class="d-block w-100" alt="img 3">
+      </div>
+    </div>
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+      data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+      data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+
+  </div>
+
+  <!-- <div class="container-fluid mt-2" style="margin-top :3rem!important; background-color: white;">
+    <div class="row mt-2">
+      <div class="col-1"></div>
+
+
+      <div class="card mt-3">
+        <div class="card-body">
+
+          <div class="row mt-2">
+
+            <div class="card-body" style="background-color: #59ACA1;">
+              <h2 class="card-title"
+                style="color: white; font-family: Georgia, 'Times New Roman', Times, serif; font-size:20px;">Hey
+                there, <span th:text="${username}"></span>!</h2>
+
+              <p class="card-text"
+                style="color: white; font-family: Georgia, 'Times New Roman', Times, serif; font-size:20px;">As you
+                start your day, we wish you a productive and successful day ahead. May your
+                tasks be smooth, and your challenges be manageable.
+
+                Have a fantastic day!
+
+              </p>
+
+            </div>
+
+          </div>
+
+          <div class="row mt-2">
+
+            <div class="col-4">
+              <div class="card mb-3" style="max-width: 25rem; background-color: #F08380;">
+                <div class="card-body">
+                  <h3 class="card-title">Customers</h3>
+                  <p class="card-text" style="font-size: 100px">50</p>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="col-4">
+              <div class="card mb-3" style="max-width: 25rem; background-color: #59ACA1;">
+                <div class="card-body">
+                  <h3 class="card-title">All Orders</h3>
+                  <p class="card-text" style="font-size: 100px">30</p>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="col-4">
+              <div class="card mb-3" style="max-width: 25rem; background-color: #F5AD59;">
+                <div class="card-body">
+                  <h3 class="card-title">Customers</h3>
+                  <p class="card-text" style="font-size: 100px">50</p>
+                </div>
+              </div>
+            </div>
+
+
+
+          </div>
+
+          <div class="row mt-2">
+            <div class="card" style="height: 100px;">
+              <div class="card-head">Employee Details</div>
+              <div class="card-body">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Full Name</th>
+                      <th>Designation</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Nimal Perera</td>
+                      <td>Manager</td>
+                      <td class="working">Working</td>
+                    </tr>
+                    <tr>
+                      <td>Sunil Kumar</td>
+                      <td>As-Manager</td>
+                      <td class="resigned">Resigned</td>
+                    </tr>
+                    <tr>
+                      <td>Martin Luther</td>
+                      <td>Product-Manager</td>
+                      <td class="working">Working</td>
+                    </tr>
+                    <tr>
+                      <td>Peris Silva</td>
+                      <td>Cashier</td>
+                      <td class="deleted">Deleted</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div> -->
+
+  <script>
+    moduleList = getAjaxRequestService("/module/findallbyloggeduser");
+    for (let moduleName of moduleList) {
+      let element = document.getElementById(moduleName);
+      element.classList.add("d-none")
+    }
+  </script>
+
+
+
+</body>
+
+</html>

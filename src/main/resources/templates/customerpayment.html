@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- head part 2k unata dekama merge wela ekatai wetenne anthimata. elemnt eken check karama only one head will be there  -->
+
+<head th:replace="~{head :: headerFragment}"></head>
+
+<head>
+    <title>Customer Payment Management</title>
+
+    <!-- Employee JS -->
+    <script src="\controller.js\customerpayment.js"></script>
+</head>
+
+<body>
+    <!-- Top Navbar -->
+
+    <nav th:replace="~{topnavbar :: topnavbarFragment}"></nav>
+
+    <div id="divModify">
+
+
+        <input type="radio" class="btn-check" name="options-outlined" id="warning-outlined" autocomplete="off">
+        <label class="btn btn-warning" onclick="printCusPayment( window['editOb'],window['editRow'])"
+            for="warning-outlined" style="margin-left: 100px;">Print</label>
+
+    </div>
+
+
+    <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel"
+        style="height: 600px;">
+        <!-- ...........Offcanvas Header ......... -->
+        <div class="offcanvas-header">
+            <div class="row p-2">
+                <div class="col-12 title-div pt-2">
+                    <h2 class="offcanvas-title" id="offcanvasTopLabel">Customer Payment Form</h2>
+                </div>
+
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"
+                onchange="refreshCusPaymentForm()"></button>
+        </div>
+
+
+        <!-- .........Offcanvas Body .......... -->
+        <div class="offcanvas-body">
+
+            <div class="container-fluid mt-2">
+                <div class="row mt-2">
+                    <div class="col-1"></div>
+
+                    <!-- ...............Form .............. -->
+
+                    <div class="card form-area">
+                        <div class="card-body">
+
+                            <!-- Form Start -->
+                            <form id="formcuspayment" onsubmit="return false">
+                                <!-- required mark start-->
+                                <div class="row mt-2">
+                                    <div class="col-12 fw-bold text-end">
+                                        <span class="text-danger"> * </span> Required
+                                    </div>
+                                </div>
+
+                                <!-- Customer , Customer Order -->
+                                <div class="row mt-2">
+                                    <!-- Customer -->
+                                    <div class="col-6">
+                                        <label for="selectCustomer" class="form-label fw-bold"> Customer :
+                                            <span class="text-danger">*</span>
+                                        </label>
+
+                                        <div class="input-group">
+                                            <select class="form-select" id="selectCustomer"
+                                                onchange="selectDValidator(this,'','cuspayment','customer_id')"></select>
+                                        </div>
+                                    </div>
+
+                                    <!-- Customer Order -->
+                                    <div class="col-6">
+                                        <label for="selectCOrder" class="form-label fw-bold"> Customer Order :
+                                            <span class="text-danger">*</span>
+                                        </label>
+
+                                        <div class="input-group">
+                                            <select class="form-select" id="selectCOrder"
+                                                onchange="selectDValidator(this,'','cuspayment','customerorder_id')"></select>
+                                        </div>
+                                    </div>
+
+                                </div><br>
+
+                                <!-- total amoynt , paid amount , balanced amount  -->
+                                <div class="row mt-2">
+
+                                    <!-- Total Amount -->
+                                    <div class="col-4">
+                                        <label for="" class="form-label fw-bold">Total Amount :
+                                            <span class="text-danger"> * </span>
+                                        </label>
+
+                                        <div class="col-12">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="textTotalAmount"
+                                                    onkeyup="textValidator(this,'^([0-9]{4,5}|[0-9]{4,5}[.][0]{2})$','cuspayment','totalamount')"
+                                                    required />
+
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+                                    <!-- Paid Amount -->
+                                    <div class="col-4">
+                                        <label for="" class="form-label fw-bold">Paid Amount :
+                                            <span class="text-danger"> * </span>
+                                        </label>
+
+                                        <div class="col-12">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="textPaidAmount"
+                                                    onkeyup="calculateBalanceAmount()" data-bs-toggle="tooltip"
+                                                    data-bs-placement="bottom"
+                                                    data-bs-title="Amount can be enter with or without decimal point"
+                                                    required />
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+                                    <!-- Balance Amount -->
+                                    <div class="col-4">
+                                        <label for="" class="form-label fw-bold">Balance Amount :
+                                            <span class="text-danger"> * </span>
+                                        </label>
+
+                                        <div class="col-12">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="textBalanceAmount"
+                                                    onkeyup="textValidator(this,'^([0-9]{3,5}|[0-9]{4,5}[.][0]{2})$','cuspayment','balanceamount')"
+                                                    required />
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+                                </div><br>
+
+                                <div class="row mt-2">
+
+                                    <label for="" class="form-label fw-bold">
+                                        Payment Method: <span class="text-danger"> * </span>
+                                    </label>
+
+                                    <div class="col-12">
+                                        <div class="input-group">
+                                            <select id="textPaymentMethod" class="form-select"
+                                                onchange="selectDValidator(this,'','cuspayment','cus_payment_method_id');PaymentMethodChangeEvent() "
+                                                required>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                </div><br>
+
+                                <div class="row mt-2 d-none" id="onlineTransactionFields">
+
+                                    <!-- Transaction Number -->
+                                    <div class="col-6">
+                                        <label for="textavailablequantity" class="form-label fw-bold">Transaction Number
+                                            :
+                                            <span class="text-danger"> Optional </span>
+                                        </label>
+                                        <div class="col-12">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="texttransactionno"
+                                                    onchange="textValidator(this,'^[A-Za-z0-9]{10,20}$','cuspayment','transfer_no')"
+                                                    data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                                    data-bs-title="Include the transaction number which is given during the transaction" />
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-6">
+                                        <label for="texttransacdate" class="form-label fw-bold">
+                                            Transaction Date : <span class="text-danger"> Optional </span>
+                                        </label>
+
+                                        <div class="col-12">
+                                            <div class="input-group">
+                                                <span class="input-group-text">
+                                                    <i class="fa-solid fa-calendar"></i>
+                                                </span>
+                                                <input type="date"
+                                                    onchange="textValidator(this,'^[0-9]{4}[-][0-9]{2}[-][0-9]{2}$' , 'cuspayment','transfer_date')"
+                                                    class="form-control" id="texttransacdate" data-bs-toggle="tooltip"
+                                                    data-bs-placement="bottom"
+                                                    data-bs-title="Include the transaction date which is given during the transaction" />
+
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
+
+                                <!--Note-->
+                                <div>
+                                    <label for="textNote" onkeyup="textValidator(this,'^.*$' , 'cuspayment','note')"
+                                        class="form-label fw-bold">
+                                        Note : <span class="text-danger"> (optional) </span>
+                                    </label>
+
+                                    <div class="col-12">
+                                        <div class="input-group">
+                                            <textarea id="textnote" class="text-area form-control"
+                                                data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                                data-bs-title="Include additional message"></textarea>
+
+
+                                        </div>
+                                    </div>
+                                </div><br>
+
+                                <!-- Buttons Start-->
+                                <div class="row mt-2">
+                                    <div class="col-4 text-start">
+                                        <button type="reset" onclick="refreshCusPaymentForm()"
+                                            class="button  btn-clear">
+                                            <i class="fa-solid fa-eraser"></i>
+                                            Clear
+                                        </button>
+                                    </div>
+                                    <div class="col-8 text-end">
+                                        <button type="submit" class="button  btn-update" id="btnUpdateCusPay"
+                                            onclick="buttonCusPaymentUpdate()">
+                                            <i class="fa-solid fa-square-pen"></i>
+                                            Update
+                                        </button>
+                                        <button type="submit" onclick="submitCusPayment()" class="button  btn-add"
+                                            id="btnAddCusPay">
+                                            <i class="fa-solid fa-user-plus"></i>
+                                            Add
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <!------------------------ print table- -------------------------------------->
+
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Customer Payment Modal</title>
+        <link rel="stylesheet" href="resources/bootstrap-5.3.2/css/bootstrap.min.css">
+        <style>
+            /* Modal Styling */
+            .modal-content {
+                border-radius: 0.5rem;
+                /* Rounded corners for modal */
+            }
+
+            .modal-header {
+                background-color: #2c3e50;
+                /* Blue background for header */
+                color: wheat;
+                /* White text color */
+                border-bottom: 1px solid #dee2e6;
+                /* Border below the header */
+            }
+
+            .modal-body {
+                padding: 1.5rem;
+                /* Padding inside the body */
+                background-color: #f8f9fa;
+                /* Light background color */
+            }
+
+            .modal-footer {
+                border-top: 1px solid #dee2e6;
+                /* Border above the footer */
+                background-color: #f8f9fa;
+                /* Light background color */
+                padding: 0.75rem;
+                /* Padding inside the footer */
+            }
+
+            .btn-close {
+                background: transparent;
+                /* Transparent background for close button */
+                border: none;
+                /* No border for close button */
+                font-size: 1.5rem;
+                /* Larger font size for close button */
+            }
+
+            .btn-info {
+                border-radius: 0.25rem;
+                /* Rounded corners for button */
+                font-weight: bold;
+                /* Bold text for button */
+            }
+
+            #PrintCusPayTable table {
+                width: 100%;
+                /* Full width table */
+                border-collapse: collapse;
+                /* Collapse table borders */
+            }
+
+            #PrintCusPayTable table th,
+            #PrintCusPayTable table td {
+                padding: 0.75rem;
+                /* Padding inside table cells */
+                border: 1px solid #dee2e6;
+                /* Border color for table cells */
+            }
+
+            #PrintCusPayTable table th {
+                background-color: #007bff;
+                /* Blue background for table header */
+                color: black;
+                /* black text color */
+            }
+
+            #PrintCusPayTable table tr:nth-child(even) {
+                background-color: #f2f2f2;
+                /* Alternate row background color */
+            }
+
+            /* Print Styles */
+            @media print {
+                .modal-header .btn-close {
+                    display: none;
+                }
+
+                .modal-content {
+                    border: none;
+                    box-shadow: none;
+                }
+
+                .modal-body {
+                    padding: 0;
+                }
+
+                .modal-footer {
+                    display: none;
+                }
+
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+
+                table th,
+                table td {
+                    border: 1px solid #000;
+                    padding: 8px;
+                }
+
+                table th {
+                    background-color: #f8f9fa;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <!-- Modal -->
+        <div class="modal fade" id="modalPrintCusPayment" tabindex="-1" aria-labelledby="modalPrintCusPaymentLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title" id="modalPrintCusPaymentLabel">View Customer Details</h2>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <table id="PrintCusPayTable" class="table table-bordered">
+
+                            <tr>
+                                <th>Customer Bill No</th>
+                                <td id="tdNum"></td>
+                            </tr>
+                            <tr>
+                                <th>Customer</th>
+                                <td id="tdCustomer"></td>
+                            </tr>
+                            <tr>
+                                <th>Customer Order</th>
+                                <td id="tdCustomerOrder"></td>
+                            </tr>
+                            <tr>
+                                <th>Total Amount</th>
+                                <td id="tdTotalAmount"></td>
+                            </tr>
+                            <tr>
+                                <th>Paid Amount</th>
+                                <td id="tdPaidAmount"></td>
+                            </tr>
+                            <tr>
+                                <th>Balance Amount</th>
+                                <td id="tdBalanceAmount"></td>
+                            </tr>
+                            <tr>
+                                <th>Payment Method</th>
+                                <td id="tdPaymentMethod"></td>
+                            </tr>
+
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-info" onclick="PrintCusPaymentTableButton()">Print</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="resources/bootstrap-5.3.2/js/bootstrap.bundle.min.js"></script>
+    </body>
+
+    </html>
+
+
+
+
+    <div class="container-fluid mt-2">
+        <div class="row mt-2">
+            <div class="col-1"></div>
+
+
+            <!-- Tbale Start -->
+            <div class="cardtable table-area mt-3">
+                <div class="card-body">
+                    <div class="row mt-2">
+                        <div class="text-end" style="margin-left:-10% ; margin-top :1%">
+                            <button class="btn btn-info" onclick="printCusPaymentFullTable()">Print Customer Payment
+                                Table</button>
+                        </div>
+                        <div class="col-12">
+
+                            <table class="table mt-5" id="tableCusPayment">
+                                <thead class="tablehead">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Customer Bill No</th>
+                                        <th>Customer</th>
+                                        <th>Customer Order</th>
+                                        <th>Total Amount</th>
+                                        <th>Paid Amount</th>
+                                        <th>Balance Amount</th>
+                                        <th>Payment Method</th>
+                                        <th class="modify-button">Modify</th>
+
+
+                                    </tr>
+                                </thead>
+                                <tbody class="tbody">
+
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>

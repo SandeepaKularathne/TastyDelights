@@ -1,0 +1,49 @@
+<head th:fragment="headerFragment">
+    <meta charset="UTF-8">
+    <meta name="Printport" content="width=device-width, initial-scale=1.0">
+
+    <title th:text="${title}"></title>
+    <link rel="icon" href="/bakery-shop-logo-design-Graphics-19631168-1-removebg-prePrint.png">
+    <!-- Bootstrap css -->
+    <link rel="stylesheet" href="\bootstrap-5.2.3\css\bootstrap.min.css">
+
+    <!-- Bootstrap js-->
+    <script src="/bootstrap-5.2.3/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Fontawesome css -->
+    <link rel="stylesheet" href="/fontawesome-free-6.4.2/css/all.css">
+
+    <!-- common css -->
+    <link rel="stylesheet" href="/style/common.css">
+
+    <!-- Validation Js -->
+    <script src="\script\validation.js"></script>
+
+    <!-- TableCommon JS -->
+    <script src="\script\tableCommonFunction.js"></script>
+
+    <!-- link common function file -->
+    <script src="script/commonFunction.js"></script>
+
+    <!-- Jquery File -->
+    <script src="\script\jQuery.js"></script>
+
+    <!-- Table Top Design Files  -->
+    <link rel="stylesheet" href="/datatables-1.13.6/css/jquery.dataTables.min.css">
+
+    <script src="/datatables-1.13.6/js/jquery.dataTables.min.js"></script>
+
+    <script th:inline="javascript">
+        window.addEventListener("load", () => {
+            let userPhoto = /*[[${loggeduserphoto}]]*/ 'loggeduserphoto';
+            if (userPhoto != null) {
+                imgUserPhoto.src = atob(userPhoto);
+
+            }
+        })
+    </script>
+
+
+</head>
+
+

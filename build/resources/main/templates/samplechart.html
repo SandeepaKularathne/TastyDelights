@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product Type Charts</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {packages: ['corechart', 'bar']});
+        google.charts.setOnLoadCallback(drawCharts);
+
+        function drawCharts() {
+            fetch('/reportproducttypecount')
+                .then(response => response.json())
+                .then(data => {
+                    const chartData = new google.visualization.DataTable();
+                    chartData.addColumn('string', 'Product Type');
+                    chartData.addColumn('number', 'Count');
+
+                    data.forEach(item => {
+                        chartData.addRow([item.name, item.count]);
+                    });
+
+                    // Pie Chart
+                    const pieOptions = {
+                        title: 'Product Types Distribution'
+                    };
+                    const pieChart = new google.visualization.PieChart(document.getElementById('pie_chart_div'));
+                    pieChart.draw(chartData, pieOptions);
+
+                    // Column Chart
+                    const columnOptions = {
+                        title: 'Product Types',
+                        chartArea: {width: '50%'},
+                        hAxis: {title: 'Total Products', minValue: 0},
+                        vAxis: {title: 'Product Type'}
+                    };
+                    const columnChart = new google.visualization.ColumnChart(document.getElementById('column_chart_div'));
+                    columnChart.draw(chartData, columnOptions);
+
+                    // Bar Chart
+                    const barOptions = {
+                        title: 'Product Types',
+                        chartArea: {width: '50%'},
+                        hAxis: {title: 'Total Products', minValue: 0},
+                        vAxis: {title: 'Product Type'}
+                    };
+                    const barChart = new google.visualization.BarChart(document.getElementById('bar_chart_div'));
+                    barChart.draw(chartData, barOptions);
+
+                    // Line Chart
+                    const lineOptions = {
+                        title: 'Product Types Over Time',
+                        hAxis: {title: 'Product Type'},
+                        vAxis: {title: 'Total Products'}
+                    };
+                    const lineChart = new google.visualization.LineChart(document.getElementById('line_chart_div'));
+                    lineChart.draw(chartData, lineOptions);
+                });
+        }
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .chart-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .chart {
+            width: 45%;
+            height: 400px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            perspective: 1000px;
+        }
+        .chart div {
+            border-radius: 10px;
+            transform-style: preserve-3d;
+        }
+        .chart:hover {
+            transform: rotateX(10deg) rotateY(10deg);
+            transition: transform 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+<div class="chart-container">
+    <div id="pie_chart_div" class="chart"></div>
+    <div id="column_chart_div" class="chart"></div>
+    <div id="bar_chart_div" class="chart"></div>
+    <div id="line_chart_div" class="chart"></div>
+</div>
+</body>
+</html>

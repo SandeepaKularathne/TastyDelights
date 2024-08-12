@@ -1,0 +1,188 @@
+<!-- top nav bar and side bar -->
+<nav class="navbar fixed-top" th:fragment="topnavbarFragment">
+
+    <div class="container-fluid">
+
+        <a href="/index" class="navbar-brand"><img src="/images/nav-brand.png" alt=""></a>
+
+
+        <ul class="navbar-nav navbar-nav-right">
+            <li class="nav-item dropdown d-lg-flex d-none">
+                <button class="button-offcanvas fw-bold" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasTop" aria-controls="offcanvasTop"> + Create Form</button><br>
+            </li>
+        </ul>
+
+        <a style="margin-left:-100">
+            <img src="images/user/default.png" id="imgUserPhoto" alt=""
+                style="width: 50px; height:50px; border-radius: 50%;">
+
+            <span style="color: white; font-family: Georgia, 'Times New Roman', Times, serif; font-size:20px;"
+                th:text="${loggedusername}">
+            </span>
+            <span style="color: white; font-family: Georgia, 'Times New Roman', Times, serif; font-size:20px;"
+                th:text="${loggeduserrole}">
+            </span>
+        </a>
+
+       
+<!-- 
+        <a class="mt-2" data-bs-toggle="modal" data-bs-target="#modalsetting">
+            <i class="fa-solid fa-gear" style="color: #ffffff;" aria-hidden="true"></i>
+        </a> -->
+        
+        <a class="mt-2" onclick=" let userConfirm = confirm('Are you sure to signout..?');
+        if (userConfirm) {
+          window.location.replace('/logout');
+        }">
+        <i class="fa-solid fa-power-off fa-xl" style="color: #fcfcfd;"></i>
+         </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+            aria-controls="offcanvasNavbar">
+            <header><a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a>
+        </button>
+
+        <div class="offcanvas offcanvas-side offcanvas-end" tabindex="-1" id="offcanvasNavbar"
+            aria-labelledby="offcanvasNavbarLabel">
+            <header><a href="/index" class="brand-logo"><img src="/images/logo2.png" alt=""></a></header>
+
+            <div class="offcanvas-body">
+                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/index"><i class="fa-solid fa-store"
+                                style="color: black;"></i></i> Home</a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle fw-bold" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false"><i class="fa-solid fa-user-tie " style="color: black;"></i>
+                            Adminstration
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/employee">Employee</a></li>
+                            <li><a class="dropdown-item" href="/user">User</a></li>
+                            <li><a class="dropdown-item" href="/privilege">Privilage</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle fw-bold" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false"><i class="fa-solid fa-boxes-packing" style="color: black;"></i>
+                            Purchase Management
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/ingredient">Ingredient</a></li>
+                            <li><a class="dropdown-item" href="/supplier">Supplier</a></li>
+                            <li><a class="dropdown-item" href="/purchaseorder">Purchase Order</a></li>
+                            <li><a class="dropdown-item" href="/irn">IRN</a></li>
+                            <li><a class="dropdown-item" href="/supplierpayment">Supplier Payment</a></li>
+                        </ul>
+                    </li>
+
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle fw-bold" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false"><i class="fa-solid fa-money-check-dollar" style="color: black;"></i>
+                            Sales Management
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/customer">Customer</a></li>
+                            <li><a class="dropdown-item" href="/product">Product</a></li>
+                            <li><a class="dropdown-item" href="/customerorder">Customer Order</a></li>
+                            <li><a class="dropdown-item" href="/customerpayment">Customer Payment</a></li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a class="nav-link fw-bold " href="/production" role="button" aria-expanded="false"><i
+                                class="fa-brands fa-product-hunt" style="color: black;"></i> Production Management
+                        </a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle fw-bold" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false"><i class="fa-solid fa-boxes-packing" style="color: black;"></i>
+                            Inventory Management
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/stockdetail">Stock Details</a></li>
+
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+
+                        <a class="nav-link dropdown-toggle fw-bold" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false"><i class="fa-solid fa-file-lines" style="color: #000000;"></i>
+                            Generated Report
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/reportemployee">Employee Report</a></li>
+                            <li><a class="dropdown-item" href="/reportpurchase">purchase Order</a></li>
+                            <li><a class="dropdown-item" href="/customerorder">Customer Order</a></li>
+                            <li><a class="dropdown-item" href="/customerpayment">Customer Payment</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+
+
+                <div class="nav-item-divider"></div>
+                <!-- <a onclick=" let userConfirm  
+                          {
+                            Swal.fire({
+        title: 'Are you sure to sign out?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, sign me out',
+        cancelButtonText: 'No, cancel',
+        reverseButtons: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // If user confirms, redirect to logout URL
+            window.location.replace('/logout');
+        }
+    });
+                          }">
+                    <i class="fas fa-sign-out-alt"></i>Logout
+                </a> -->
+
+
+
+            </div>
+        </div>
+
+    </div>
+</nav>
+
+
+
+
+
+<!-- User Setting Modal -->
+<!-- <div class="modal" th:fragment = "settingmodal" id="modalsetting" data-bs-backdrop = "static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit User Profile</h2>
+                <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <form onsubmit="return false" id="formUserSetting" >
+                        <input type="text" class="d-none" value="1" name="userid">
+                        <input type="file" name="image" accept="image/*" class="form-control-file">
+                    </div>
+
+                    <button type="submit" onclick="submitUserSetting()" class="btn btn-primary">Upload Image</button>
+                </form>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+ </div> -->

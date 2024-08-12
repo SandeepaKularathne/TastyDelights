@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- head part 2k unata dekama merge wela ekatai wetenne anthimata. elemnt eken check karama only one head will be there  -->
+
+<head th:replace="~{head :: headerFragment}"></head>
+
+<head>
+    <title>Ingredient Form</title>
+
+    <!-- Ingredient JS -->
+    <script src="controller.js/ingredient.js"></script>
+</head>
+
+<body>
+
+    <!-- Top Navbar -->
+    <nav th:replace="~{topnavbar :: topnavbarFragment}"></nav>
+
+    <div id="divModify">
+
+        <input type="radio" class="btn-check" name="options-outlined" id="btnTableUpdate" autocomplete="off">
+        <label class="btn btn-success" onclick="refillIngredientForm(window['editOb'],window['editRow'])"
+            for="success-outlined" style="margin-left: 20%;">Edit</label>
+
+        <input type="radio" class="btn-check" name="options-outlined" id="btnTableDelete" autocomplete="off">
+        <label class="btn btn-danger" onclick="deleteIngredient( window['editOb'],window['editRow'])"
+            for="danger-outlined">Delete</label>
+
+        <input type="radio" class="btn-check" name="options-outlined" id="warning-outlined" autocomplete="off">
+        <label class="btn btn-warning" onclick="printIngredient( window['editOb'],window['editRow'])"
+            for="warning-outlined">Print</label>
+
+    </div>
+
+
+    <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel"
+        style="height: 600px;">
+        <!-- ...........Offcanvas Header ......... -->
+        <div class="offcanvas-header">
+            <div class="row p-2">
+                <div class="col-12 title-div pt-2">
+                    <h2 class="offcanvas-title" id="offcanvasTopLabel">Ingredient Form</h2>
+                </div>
+
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"
+                onchange="refreshIngredientForm()"></button>
+        </div>
+
+
+        <!-- .........Offcanvas Body .......... -->
+        <div class="offcanvas-body">
+
+            <div class="container-fluid mt-2">
+                <div class="row mt-2">
+                    <div class="col-1"></div>
+
+                    <!-- ...............Form .............. -->
+
+                    <div class="card form-area">
+                        <div class="card-body">
+
+                            <!-- Form Start -->
+                            <form id="formingredient" onsubmit="return false">
+                                <!-- required mark start-->
+                                <div class="row mt-2">
+                                    <div class="col-12 fw-bold text-end">
+                                        <span class="text-danger"> * </span> Required
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <!-- Ingredient Name start -->
+                                    <div class="col-4">
+                                        <label for="textingredientName" class="form-label fw-bold">Ingredient Name :
+                                            <span class="text-danger">*</span>
+                                        </label>
+
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="textingredientName"
+                                                autocomplete="off"
+                                                onkeyup="textNameValidator(this,'^([A-Za-z]{3,30}[\\s])+([A-Za-z]{3,30})|([A-Za-z]{3,30})$','ingredient','ingredientname')" required
+                                                data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Name should be more than 3 letters, no special characters are allowed">
+
+                                        </div>
+
+
+                                    </div>
+
+                                    <!-- Unit of Measurment -->
+                                    <div class="col-4">
+                                        <label for="textUnitofMeasurement" class="form-label fw-bold">
+                                            Unit of Measurment: <span class="text-danger"> Optional</span>
+                                        </label>
+                                        <div class="input-group">
+
+                                            <div class="input-group">
+                                                <span class="input-group-text">
+                                                    <i class="fa-solid fa-weight"></i>
+                                                </span>
+                                                <input type="text" class="form-control" id="textUnitofMeasurement"
+                                                    autocomplete="off"
+                                                    onkeyup="textValidator(this,'^([Kg])|([g])|([ml])|([doz])|([l])|([0-9]{1,3})$','ingredient','unitofmeasurment')" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                                    data-bs-title="Include relevant measuring units">
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <!-- Cost Per Unit -->
+                                    <div class="col-4">
+                                        <label for="textCostPerUnit" class="form-label fw-bold">Cost Per Unit :
+                                            <span class="text-danger"> * </span>
+                                        </label>
+
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="textCostPerUnit"
+                                                autocomplete="off"
+                                                onkeyup="textValidator(this,'^([0-9]{2,5}|[0-9]{2,5}[.][0]{2})$','ingredient','costperunit')"
+                                                required>
+                                        </div>
+
+
+
+                                    </div>
+
+                                </div><br>
+
+
+                                <div class="row mt-2">
+
+                                    <!-- Status -->
+                                    <div class="col-8">
+                                        <div class="divstatus">
+                                            <label for="selectIngredientStatus" class="form-label fw-bold">
+                                                Ingredient Status : <span class="text-danger">*</span>
+                                            </label>
+
+                                            <div class="col-12">
+                                                <div class="input-group">
+                                                    <select id="selectIngredientStatus" class="form-control"
+                                                        onchange="selectDValidator(this,'','ingredient','ingredientstatus_id')"
+                                                        required>
+
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+
+                                    <!--Note-->
+                                    <div class="col-4">
+                                        <label for="textNote" onkeyup="textValidator(this,'^.*$' , 'ingredient','note')"
+                                            class="form-label fw-bold">
+                                            Note : <span class="text-danger"> (optional) </span>
+                                        </label>
+
+                                        <div class="col-12">
+                                            <div class="input-group">
+                                                <textarea id="textnote" class="text-area form-control" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Include additional note"></textarea>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div><br>
+
+
+
+                                <!-- Buttons Start-->
+                                <div class="row mt-2">
+                                    <div class="col-4 text-start">
+                                        <button type="reset" onclick="refreshIngredientForm()"
+                                            class="button  btn-clear">
+                                            <i class="fa-solid fa-eraser"></i>
+                                            Clear
+                                        </button>
+                                    </div>
+                                    <div class="col-8 text-end">
+                                        <button type="submit" class="button  btn-update" id="btnUpdateIngredient"
+                                            onclick="buttonIngredientUpdate()">
+                                            <i class="fa-solid fa-square-pen"></i>
+                                            Update
+                                        </button>
+                                        <button type="submit" onclick="submitIngredient()" class="button  btn-add"
+                                            id="btnAddIngredient">
+                                            <i class="fa-solid fa-user-plus"></i>
+                                            Add
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <!------------------------  print table- -------------------------------------->
+
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Ingredient Modal</title>
+        <link rel="stylesheet" href="resources/bootstrap-5.3.2/css/bootstrap.min.css">
+        <style>
+            /* Modal Styling */
+            .modal-content {
+                border-radius: 0.5rem;
+                /* Rounded corners for modal */
+            }
+
+            .modal-header {
+                background-color: #2c3e50;
+                /* Blue background for header */
+                color: wheat;
+                /* White text color */
+                border-bottom: 1px solid #dee2e6;
+                /* Border below the header */
+            }
+
+            .modal-body {
+                padding: 1.5rem;
+                /* Padding inside the body */
+                background-color: #f8f9fa;
+                /* Light background color */
+            }
+
+            .modal-footer {
+                border-top: 1px solid #dee2e6;
+                /* Border above the footer */
+                background-color: #f8f9fa;
+                /* Light background color */
+                padding: 0.75rem;
+                /* Padding inside the footer */
+            }
+
+            .btn-close {
+                background: transparent;
+                /* Transparent background for close button */
+                border: none;
+                /* No border for close button */
+                font-size: 1.5rem;
+                /* Larger font size for close button */
+            }
+
+            .btn-info {
+                border-radius: 0.25rem;
+                /* Rounded corners for button */
+                font-weight: bold;
+                /* Bold text for button */
+            }
+
+            #PrintIngredientTable table {
+                width: 100%;
+                /* Full width table */
+                border-collapse: collapse;
+                /* Collapse table borders */
+            }
+
+            #PrintIngredientTable table th,
+            #PrintIngredientTable table td {
+                padding: 0.75rem;
+                /* Padding inside table cells */
+                border: 1px solid #dee2e6;
+                /* Border color for table cells */
+            }
+
+            #PrintIngredientTable table th {
+                background-color: #007bff;
+                /* Blue background for table header */
+                color: black;
+                /* black text color */
+            }
+
+            #PrintIngredientTable table tr:nth-child(even) {
+                background-color: #f2f2f2;
+                /* Alternate row background color */
+            }
+
+            /* Print Styles */
+            @media print {
+                .modal-header .btn-close {
+                    display: none;
+                }
+
+                .modal-content {
+                    border: none;
+                    box-shadow: none;
+                }
+
+                .modal-body {
+                    padding: 0;
+                }
+
+                .modal-footer {
+                    display: none;
+                }
+
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+
+                table th,
+                #PrintIngredientTable table td {
+                    border: 1px solid #000;
+                    padding: 8px;
+                }
+
+                table th {
+                    background-color: #f8f9fa;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <!-- Modal -->
+        <div class="modal fade" id="modalPrintIngredient" tabindex="-1" aria-labelledby="modalPrintIngredientLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title" id="modalPrintIngredientLabel">View Ingredient Details</h2>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <table id="PrintIngredientTable" class="table table-bordered">
+                            <tr>
+                                <th>Ing_Id</th>
+                                <td id="tdNum"></td>
+                            </tr>
+                            <tr>
+                                <th>Ingredient Name</th>
+                                <td id="tdIngredientname"></td>
+                            </tr>
+                            <tr>
+                                <th>Unit of Measurment</th>
+                                <td id="tdUoMeasurment"></td>
+                            </tr>
+                            <tr>
+                                <th>Cost/Unit</th>
+                                <td id="tdCostUnit"></td>
+                            </tr>
+                            <tr>
+                                <th>Ingredient Status</th>
+                                <td id="tdIngStatus"></td>
+                            </tr>
+
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-info" onclick="PrintIngredientTableButton()">Print</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="resources/bootstrap-5.3.2/js/bootstrap.bundle.min.js"></script>
+    </body>
+
+    </html>
+
+
+
+
+    <div class="container-fluid mt-2">
+        <div class="row mt-2">
+            <div class="col-1"></div>
+
+
+            <!-- Tbale Start -->
+            <div class="cardtable table-area mt-3">
+                <div class="card-body">
+                    <div class="row mt-2">
+                        <div class="text-end" style="margin-left:-10% ; margin-top :1%">
+                            <button class="btn btn-info" onclick="printIngredientFullTable()">Print Ingredient
+                                Table</button>
+                        </div>
+                        <div class="col-12">
+
+                            <table class="table mt-5" id="tableIngredient">
+                                <thead class="tablehead">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Ing_Id</th>
+                                        <th>Ingredient Name</th>
+                                        <th>Unit of Measurment</th>
+                                        <th>Cost/Unit</th>
+                                        <th>Status</th>
+                                        <th class="modify-button">Modify</th>
+
+
+                                    </tr>
+                                </thead>
+                                <tbody class="tbody">
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>
